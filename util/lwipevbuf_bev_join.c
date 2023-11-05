@@ -4,12 +4,11 @@
 #include <event2/buffer.h>
 #include <event2/event.h>
 
-#include <linux/tcp.h>
-
 #include <lwip/tcp.h>
 
 #include "util/lwipevbuf_bev_join.h"
 #include "util/lwipevbuf.h"
+#include "util/compat.h"
 
 static void
 bufferevent_join_adjust_watermark(struct bufferevent *bev, struct lwipevbuf_bev_join_data *data)

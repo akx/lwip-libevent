@@ -8,6 +8,12 @@
 
 #include "util/nettest.h"
 
+#ifdef __linux__
+#define NETTEST_CLOCK CLOCK_BOOTTIME
+#else
+#define NETTEST_CLOCK CLOCK_MONOTONIC
+#endif
+
 enum nettest_action {
 	NETTEST_INPUT,
 	NETTEST_OUTPUT,
@@ -57,7 +63,7 @@ nettest_schedule(struct nettest_data *data, struct nettest_elem *elem)
      	struct timeval tv;
 	struct timespec now;
 
-	clock_gettime(CLOCK_BOOTTIME, &now);
+	clock_gettime(NETTEST_CLOCK, &now);
 
 	/* libevent timeval has granularity of 1us */
 	now.tv_nsec /= 1000;
@@ -100,7 +106,7 @@ nettest_enqueue(struct nettest_data *data, struct pbuf *p, struct netif *netif)
 
 	elem->p = p;
 	elem->netif = netif;
-	clock_gettime(CLOCK_BOOTTIME, &now);
+	clock_gettime(NETTEST_CLOCK, &now);
 
 	/* libevent timeval has granularity of 1us */
 	now.tv_nsec /= 1000;
@@ -124,7 +130,7 @@ nettest_timeout(evutil_socket_t fd, short what, void *arg)
 	struct nettest_data *data = arg;
 	struct timespec now;
 
-	clock_gettime(CLOCK_BOOTTIME, &now);
+	clock_gettime(NETTEST_CLOCK, &now);
 	now.tv_nsec /= 1000;
 
 	while (data->queue_head) {

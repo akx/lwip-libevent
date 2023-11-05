@@ -18,6 +18,9 @@
 
 #include "netif/udptapif.h"
 
+#include "util/compat.h"
+#include "util/reallocarray.h"
+
 #define HW_EXPIRE_TIME (60 * 60)
 
 struct eth_client_hw {

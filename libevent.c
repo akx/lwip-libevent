@@ -63,6 +63,8 @@
 #include <time.h>
 #include <event2/event.h>
 
+#include "util/compat.h"
+
 #if LWIP_DEBUG_TIMERNAMES
 #define HANDLER(x) x, #x
 #else /* LWIP_DEBUG_TIMERNAMES */
@@ -119,8 +121,7 @@ u32_t
 sys_now(void)
 {
   struct timespec tp;
-  /* CLOCK_BOOTTIME includes time spent in suspend */
-  clock_gettime(CLOCK_BOOTTIME, &tp);
+  clock_gettime(CLOCK_BEST, &tp);
   return tp.tv_sec * 1000 + tp.tv_nsec / 1000000;
 }
 

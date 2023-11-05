@@ -7,6 +7,12 @@
 #include "util/sockaddr.h"
 #include "container_of.h"
 
+
+#ifndef SOCK_NONBLOCK
+#include <fcntl.h>
+#define SOCK_NONBLOCK O_NONBLOCK
+#endif
+
 struct slirpif_udp_data {
 	struct slirpif_data *data;
 	struct event *ev;

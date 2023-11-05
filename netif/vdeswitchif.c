@@ -25,6 +25,9 @@
 
 #include "netif/vdeswitchif.h"
 
+#include "util/compat.h"
+#include "util/reallocarray.h"
+
 #define HW_EXPIRE_TIME (60 * 60)
 #define SWITCH_MAGIC 0xfeedface
 

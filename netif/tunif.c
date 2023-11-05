@@ -6,7 +6,6 @@
 
 #include <sys/time.h>
 #include <sys/ioctl.h>
-#include <linux/if_tun.h>
 #include <net/if.h>
 
 #include <lwip/netif.h>
@@ -21,6 +20,15 @@
 #include <event2/event.h>
 
 #include "netif/tunif.h"
+
+#ifdef __linux__
+#include <linux/if_tun.h>
+#else
+// define TUNSETIFF to _something_; these functions won't
+// work when there's no /dev/net/tun anyway, so just make
+// it compile
+#define TUNSETIFF 0
+#endif
 
 struct tunif_data {
 	struct netif netif;
